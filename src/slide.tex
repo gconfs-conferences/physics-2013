@@ -1,0 +1,107 @@
+\documentclass{beamer}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{subfigure}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage[labelformat=empty]{caption}
+\usetheme{Boadilla}
+% \usetheme{Pittsburgh}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\B}{\mathcal{B}}
+\renewcommand{\v}{\textbf{v}}
+\newcommand{\x}{\textbf{x}}
+\newcommand{\p}{\textbf{p}}
+\newcommand{\pA}{\ensuremath{{\bf p_\mathcal{A}}}}
+\newcommand{\pB}{\ensuremath{{\bf p_\mathcal{B}}}}
+\newcommand{\pone}{\ensuremath{{\bf p_1}}}
+\newcommand{\ptwo}{\ensuremath{{\bf p_2}}}
+\newcommand{\pii}{\ensuremath{{\bf p_i}}}
+\newcommand{\pj}{\ensuremath{{\bf p_j}}}
+\newcommand{\n}{\ensuremath{{\bf n}}}
+\renewcommand{\a}{\ensuremath{{\bf a}}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\graphicspath{{src/figs/}}
+
+\usepackage{algorithm2e}
+\usepackage{algorithmic}
+
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat’s bookmarks
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={My title},    % title
+    pdfauthor={Author},     % author
+    pdfsubject={Subject},   % subject of the document
+    pdfcreator={Creator},   % creator of the document
+    pdfproducer={Producer}, % producer of the document
+    pdfkeywords={keyword1} {key2} {key3}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,        % false: boxed links; true: colored links
+    linkcolor=magenta,          % color of internal links (change box color with linkbordercolor)
+    citecolor=green,        % color of links to bibliography
+    filecolor=magenta,      % color of file links
+    urlcolor=cyan           % color of external links
+}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  escapechar=−,
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,                    % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{black},       % keyword style
+  language=Ruby,                 % the language of the code
+  morekeywords={*,...,f64,RigidBody,fn},            % if you want to add more keywords to the set
+  numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,                       % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+% \lstset{emph={%  
+%         let, for, \&mut%
+%     },emphstyle={\color{orange}}%
+% }%
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\title{Simulation temps réel d'objets rigides}
+\author{Sébastien Crozet}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Pourquoi un moteur physique ?}
+\input{src/pourquoi}
+\section{Architecture}
+\input{src/architecture}
+\section{Algorithmique de base}
+\input{src/algorithmique}
+\section{Amélioration des performances}
+\input{src/amelioration}
+\section{La magie noire}
+\input{src/magie_noire}
+\section{Références}
+\end{document}

@@ -1,2 +1,2 @@
 all:
-	pdflatex slide.tex
+	pdflatex src/slide.tex
