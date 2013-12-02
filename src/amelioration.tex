@@ -1,4 +1,33 @@
 \begin{frame}{Génération de surface de contacts}
+    \begin{itemize}
+        \item Les algorithmes présentés ne calculent qu’un point de contact.
+        \item C’est rarement suffisant et provoque des vibrations:
+    \end{itemize}
+    \begin{center}
+        \includegraphics[scale=0.5]{acc_contact_1}
+        \pause
+        \includegraphics[scale=0.5]{contact_2}
+        \pause
+        \includegraphics[scale=0.5]{contact_3}
+        \pause
+        \includegraphics[scale=0.5]{contact_4}
+        \pause
+        \includegraphics[scale=0.5]{contact_5}
+        \pause
+    \end{center}
+
+    Solution: accumuler les contacts sur plusieurs frames en maximisant la
+    dispersion des points.
+    \pause
+    \begin{center}
+        \includegraphics[scale=0.5]{acc_contact_1}
+        \pause
+        \includegraphics[scale=0.5]{acc_contact_2}
+        \pause
+        \includegraphics[scale=0.5]{acc_contact_3}
+        \pause
+        \includegraphics[scale=0.5]{acc_contact_4}
+    \end{center}
 \end{frame}
 
 \begin{frame}{La Broad Phase}
@@ -43,7 +72,7 @@
             \begin{array}{lcl}
                 E_{rwa}(0) & = & E_{\text{max}}\\
                 E_{rwa}(t + \Delta t) & = & \alpha * E_{rwa}(t) + (1 - \alpha) * E(t + \Delta t)\\
-                E_{rwa}(t + \Delta t) & = & \text{clamp}(E_{\text{min}}, E_{rwa}(t + \Delta t), E_{\text{max}})\\
+                E_{rwa}(t + \Delta t) & = & \min(E_{rwa}(t + \Delta t), E_{\text{max}})\\
             \end{array}
         \]
     \end{description}
