@@ -238,7 +238,7 @@
     \only<6> {
         \begin{center}
             \includegraphics[scale=0.25]{box_plus_cylinder}\\
-            Boite $\oplus$ 
+            Boite $\oplus$ Cylindre
         \end{center}
     }
     \only<7-> {
@@ -248,7 +248,7 @@
         \item<9-> Le CSO est très lourd à calculer explicitement.
         \item<10-> Mais sa fonction de support est facile à évaluer:
             \[
-                s_{\A \oplus - \B}(\v) = s_\A(\v) - s_\B(\v)
+                s_{\A \oplus - \B}(\v) = s_\A(\v) - s_\B(-\v)
             \]
     \end{itemize}
     }
@@ -256,9 +256,83 @@
 \end{frame}
 
 \begin{frame}{Algorithme: objet convexe vs. objet convexe}
+    \only<1> {
+        \framesubtitle{L’algorithme de Gilbert–Johnson–Keerthi (GJK)}
+        \begin{itemize}
+            \item Le GJK calcule la distance entre l’origine et un ensemble convexe.
+            \item Utilise uniquement la fonction de support de l’ensemble.
+            \item Peut être utilisé sur le CSO pour détecter une collision.
+        \end{itemize}
+    }
+    \only<2-5> {
+        \framesubtitle{L’algorithme de Gilbert–Johnson–Keerthi (GJK): cas de la séparation.}
+    }
+    \only<2> {
+        \centering
+        \includegraphics{minkowski_gjk_01}
+    }
+    \only<3> {
+        \centering
+        \includegraphics{minkowski_gjk_02}
+    }
+    \only<4> {
+        \centering
+        \includegraphics{minkowski_gjk_03}
+    }
+    \only<5> {
+        \centering
+        \includegraphics{minkowski_gjk_04}
+    }
+    \only<6> {
+        \begin{itemize}
+            \item Ne fonctionne \textbf{pas} si l’origine est à l’intérieur de
+                l’objet!
+            \item Or, l’origine est à l’inérieur du CSO si les objets sont en
+                collision…
+            \item Il faut utiliser un autre algorithme pour calculer les
+                détails d’une collision.
+        \end{itemize}
+    }
+    \only<7-9> {
+        \framesubtitle{L’algorithme de Gilbert–Johnson–Keerthi (GJK): cas de la pénétration.}
+    }
+    \only<7> {
+        \centering
+        \includegraphics{minkowski_gjk_11}
+    }
+    \only<8> {
+        \centering
+        \includegraphics{minkowski_gjk_12}
+    }
+    \only<9> {
+        \centering
+        \includegraphics{minkowski_gjk_13}
+    }
+    \only<10-> {
+        \framesubtitle{Échantillonage du CSO.}
+    }
+    \only<10> {
+        \begin{itemize}
+            \item Le GJK ne fonctionne pas pour calculer les pénétrations.
+            \item Un autre algorithme peut prendre la main.
+            \item Échantilloner le CSO donne une bonne approximation.
+        \end{itemize}
+    }
+    \only<11> {
+        \centering
+        \includegraphics[scale=1.75]{sampling_noproj}
+    }
+    \only<12> {
+        \centering
+        \includegraphics[scale=1.75]{sampling_proj}
+    }
+    \only<13> {
+        \centering
+        \includegraphics[scale=1.75]{sampling_bestproj}
+    }
 \end{frame}
 
-\begin{frame}{Impliquant des objets concaves}
+\begin{frame}{Détection impliquant des objets concaves}
     \begin{enumerate}
         \item Décomposer en parties convexes (une fois pour toutes).
         \item Calculer les collisions entre parties convexes.
