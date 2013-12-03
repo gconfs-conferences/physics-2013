@@ -333,6 +333,7 @@
 \end{frame}
 
 \begin{frame}{Détection impliquant des objets concaves}
+    \pause
     \begin{enumerate}
         \item Décomposer en parties convexes (une fois pour toutes).
         \item Calculer les collisions entre parties convexes.
@@ -343,14 +344,14 @@
     \end{center}
 \end{frame}
 
-\begin{frame}{Le calcul des forces}
+\begin{frame}{Le calcul des forces de contact}
     \begin{block}{Problème}
-         Soit un ensemble de $n$ contacts $c_i, i \in [1, n]$. Quels sont les
+         Soit un ensemble de $n$ contacts $C_i, i \in [1, n]$. Quels sont les
          forces à appliquer aux objets afin qu’ils réagissent de manière
          réaliste?
     \end{block}
     \pause
-    Il suffit de résoudre le (M)LCP:
+    Il \textit{suffit} de résoudre une (M)LCP:
     \[
     \left\{
         \begin{array}{l}
@@ -362,5 +363,152 @@
     \]
     \begin{center}
         \includegraphics[height=.25\linewidth]{scared_cat}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Le calcul des forces de contact}
+    \begin{block}{Charactéristiques d’un objet rigide $\mathcal{R}_i$}
+    \begin{itemize}
+        \item Centre de gravité: $\cofmass_i$
+        \item Masse:             $m_i$
+        \item Tenseur d’inertie: $I_i$
+        \item Vélocité linéaire: $\v_i$
+        \item Vélocité angulaire: $\w_i$
+        \item Forces subies: $\f_i$
+        \item Moments: $\btau_i$
+    \end{itemize}
+    \end{block}
+
+    \pause
+
+    \begin{block}{Charactéristiques d’un contact $C$}
+    \begin{itemize}
+        \item Point de contact: $\cofmass$
+        \item Profondeur de pénétration: $d$
+        \item Normale de contact: $\n$
+    \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Le calcul des forces de contact}
+    \framesubtitle{Équations de mouvement}
+    Équations de mouvement pour $\mathcal{R}_i$:\\
+    \begin{center}
+    \begin{math}
+        \begin{array}{lcl}
+            \sum \f_i & = & m_i\a_i \\[0.5em]
+            \pause
+            \sum \f_i & = & m_i \frac{\v_i^{t + \Delta t} - \v_i^t}{\Delta t} \\[0.5em]
+            \pause
+            \Delta t * m_i^{-1} * \sum \f_i & = & \v_i^{t + \Delta t} - \v_i^t
+        \end{array}
+    \end{math}
+    \end{center}
+
+    \pause
+    On obtient simplement un intégrateur d’Euler:
+    \begin{center}
+    \cfbox{red}{
+        $\v_i^{t + \Delta t} = \v_i^t + \Delta t * m_i^{-1} * \sum \f_i$
+    }
+    \end{center}
+    \pause
+    Le même chose pour les rotations:
+    \begin{center}
+    \cfbox{red}{
+        $\bomega_i^{t + \Delta t} = \bomega_i^t + \Delta t * I_i^{-1} * \sum \btau_i$
+    }
+    \end{center}
+\end{frame}
+
+\begin{frame}{Le calcul des forces de contact}
+    \framesubtitle{Équations de mouvement}
+    Il est possible de regrouper les deux équations en une seule avec:
+    \[
+        V_i = \left[ \begin{array}{c} \v_i\\\bomega_i\end{array}\right]
+        M_i = \left[ \begin{array}{c} m_i\\I_i\end{array}\right]
+        F_i = \left[ \begin{array}{c} \sum \f_i\\\sum \btau_i\end{array}\right]
+    \]
+    \pause
+    \begin{center}
+    \cfbox{red}{
+        $V_i^{t + \Delta t} = V_i^t + \Delta t * M_i^{-1} * F_i$
+    }
+    \end{center}
+\end{frame}
+
+\begin{frame}{Le calcul des forces de contact}
+    \framesubtitle{Contrainte de contact}
+    L’effet d’un contact parfaitement inélastique est de supprimer toute
+    vélocité relative selon la normale de contact.
+    \begin{description}
+        \item[Vélocité relative:]
+    \end{description}
+    \pause
+    \begin{center}
+        \includegraphics[scale=0.25]{coll_conf}
+    \end{center}
+    \pause
+    \begin{itemize}
+        \item Contribution linéaire:
+            $
+                \left< \n, \v_1^{t + \Delta t} \right> -
+                \left< \n, \v_2^{t + \Delta t} \right>
+            $
+            \pause
+        \item Contribution rotationelle:
+            $
+                \left<\r_1 \times \n, \bomega_1^{t + \Delta t} \right> -
+                \left<\r_2 \times \n, \bomega_2^{t + \Delta t} \right>
+            $
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Le calcul des forces de contact}
+    \framesubtitle{Contrainte de contact}
+    \begin{description}
+        \item[Contrainte résultante:]
+    \end{description}
+    \begin{math}
+        \left< \n, \v_1^{t + \Delta t} \right> -
+        \left< \n, \v_2^{t + \Delta t} \right> +
+        \left<\r_1 \times \n, \bomega_1^{t + \Delta t} \right> -
+        \left<\r_2 \times \n, \bomega_2^{t + \Delta t} \right>
+        = 0
+    \end{math}
+    \pause
+    \mbox{}\\[1em]
+    \begin{math}
+        \left< \n, \v_1^{t + \Delta t} \right> +
+        \left<\r_1 \times \n, \bomega_1^{t + \Delta t} \right> -
+        \left< \n, \v_2^{t + \Delta t} \right> -
+        \left<\r_2 \times \n, \bomega_2^{t + \Delta t} \right>
+        = 0
+    \end{math}
+    \pause
+    \mbox{}\\[1em]
+    \begin{math}
+        \left[
+            \n                                \hspace{0.75em}
+            \r_1 \times \n \hspace{0.75em}
+            -\n                               \hspace{0.75em}
+            \r_2 \times \n
+        \right]
+        \left[
+            \begin{array}{c}
+            \v_1^{t + \Delta t}      \\
+            \bomega_1^{t + \Delta t} \\
+            \v_2^{t + \Delta t}      \\
+            \bomega_2^{t + \Delta t}
+            \end{array}
+        \right]
+        = 0
+    \end{math}
+    \pause
+    \mbox{}\\[1em]
+    \begin{center}
+        \cfbox{red}{
+            $J * V^{t + \Delta t} = 0$
+        }
     \end{center}
 \end{frame}

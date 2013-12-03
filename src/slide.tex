@@ -24,10 +24,23 @@
 \newcommand{\pii}{\ensuremath{{\bf p_i}}}
 \newcommand{\pj}{\ensuremath{{\bf p_j}}}
 \newcommand{\n}{\ensuremath{{\bf n}}}
+\renewcommand{\r}{\ensuremath{{\bf r}}}
+\newcommand{\cofmass}{\ensuremath{{\bf c}}}
+\renewcommand{\v}{\ensuremath{{\bf v}}}
+\newcommand{\w}{\ensuremath{{\bf w}}}
+\newcommand{\f}{\ensuremath{{\bf f}}}
+\newcommand{\R}{\ensuremath{\mathcal{R}}}
+\newcommand{\bomega}{\ensuremath{\boldsymbol\omega}}
+\newcommand{\btau}{\ensuremath{\boldsymbol\tau}}
 \renewcommand{\a}{\ensuremath{{\bf a}}}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \graphicspath{{src/figs/}}
 \date{13 décembre 2013}
+\newcommand{\cfbox}[2]{%
+    \colorlet{currentcolor}{.}%
+    {\color{#1}%
+    \fbox{\color{currentcolor}#2}}%
+}
 
 \usepackage{algorithm2e}
 \usepackage{algorithmic}
@@ -102,5 +115,6 @@
 \input{src/algorithmique}
 \section{Amélioration des performances}
 \input{src/amelioration}
+\input{src/conclusion}
 \section{Références}
 \end{document}
