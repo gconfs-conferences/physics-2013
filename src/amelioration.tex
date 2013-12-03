@@ -1,6 +1,6 @@
 \begin{frame}{Génération de surface de contacts}
     \begin{itemize}
-        \item Les algorithmes présentés ne calculent qu’un point de contact.
+        \item Les algorithmes présentés ne calculent qu’un seul point de contact.
         \item C’est rarement suffisant et provoque des vibrations:
     \end{itemize}
     \begin{center}
@@ -16,7 +16,7 @@
         \pause
     \end{center}
 
-    Solution: accumuler les contacts sur plusieurs frames en maximisant la
+    \textbf{Solution:} accumuler les contacts sur plusieurs frames en maximisant la
     dispersion des points.
     \pause
     \begin{center}
@@ -32,9 +32,10 @@
 
 \begin{frame}{La Broad Phase}
     \begin{itemize}
-        \item Tester les $n * (n - 1) / 2$ paires de collisions est impraticable.
-        \item Il faut tester les collisions de manières approximatives avant de
-            faire les calculs les plus lourds!
+        \item Tester les $n * (n - 1) / 2$ paires de collisions est
+            impraticable!
+        \item Il faut tester les collisions de manière approximative avant de
+            faire les calculs les plus lourds.
     \end{itemize}
     \pause
     \begin{description}
@@ -46,7 +47,7 @@
 \end{frame}
 
 \begin{frame}{La Broad Phase}
-    Les volumes anglobants peuvent former un arbre.
+    Les volumes anglobants peuvent former un arbre:
     \begin{center}
             \includegraphics[scale=0.5]{AABB_tree}
     \end{center}
@@ -64,7 +65,7 @@
     \begin{description}
         \item[Pseudo énergie cinétique:]\mbox{}
             \[
-                E(t) = m * v^2 + \boldsymbol\omega^t * I * \boldsymbol\omega
+                E(t) = m * \v^2 + \boldsymbol\omega^t * I * \boldsymbol\omega
             \]
         \pause
     \item[Recency Weighted Average:]\mbox{}

@@ -109,7 +109,7 @@
         \end{figure}
         \begin{itemize}
             \item $|| \pA - \pB || < r_\A + r_\B \Rightarrow $ pénétration.\\
-            \item Profondeur de pénétration: $r_\A + r_\B - || \pA - \pB ||$.
+            \item profondeur de pénétration: $r_\A + r_\B - || \pA - \pB ||$.
         \end{itemize}
     }
     }
@@ -287,9 +287,9 @@
         \begin{itemize}
             \item Ne fonctionne \textbf{pas} si l’origine est à l’intérieur de
                 l’objet!
-            \item Or, l’origine est à l’inérieur du CSO si les objets sont en
+            \item Or, l’origine est à l’intérieur du CSO si les objets sont en
                 collision…
-            \item Il faut utiliser un autre algorithme pour calculer les
+            \item Il faut donc utiliser un autre algorithme pour calculer les
                 détails d’une collision.
         \end{itemize}
     }
@@ -346,7 +346,7 @@
 
 \begin{frame}{Le calcul des forces de contact}
     \begin{block}{Problème}
-         Soit un ensemble de $n$ contacts $C_i, i \in [1, n]$. Quels sont les
+         Soit un ensemble de $n$ contacts $C_i, i \in [1, n]$. Quelles sont les
          forces à appliquer aux objets afin qu’ils réagissent de manière
          réaliste?
     \end{block}
@@ -356,8 +356,8 @@
     \left\{
         \begin{array}{l}
             JM^{-1}J^T {\color{red}{\lambda}} = \zeta +
-            J^T(V^1 - M^{-1}F * \Delta t)\\
-            \lambda^- \leq {\color{red}{\lambda}} \leq \lambda^+ % +\infty
+            J(V^1 - M^{-1}F * \Delta t)\\
+            0 \leq {\color{red}{\lambda}} \leq +\infty % +\infty
         \end{array}
     \right.
     \]
@@ -375,7 +375,7 @@
         \item Vélocité linéaire: $\v_i$
         \item Vélocité angulaire: $\w_i$
         \item Forces subies: $\f_i$
-        \item Moments: $\btau_i$
+        \item Moments subis: $\btau_i$
     \end{itemize}
     \end{block}
 
@@ -488,12 +488,17 @@
     \pause
     \mbox{}\\[1em]
     \begin{math}
+        {
+            \color{blue}
         \left[
-            \n                                \hspace{0.75em}
-            \r_1 \times \n \hspace{0.75em}
-            -\n                               \hspace{0.75em}
-            \r_2 \times \n
+            \n^T               \hspace{0.75em}
+            (\r_1 \times \n)^T \hspace{0.75em}
+            -\n^T              \hspace{0.75em}
+            -(\r_2 \times \n)^T
         \right]
+        }
+        {
+            \color{brown}
         \left[
             \begin{array}{c}
             \v_1^{t + \Delta t}      \\
@@ -502,13 +507,66 @@
             \bomega_2^{t + \Delta t}
             \end{array}
         \right]
+        }
         = 0
     \end{math}
     \pause
     \mbox{}\\[1em]
     \begin{center}
         \cfbox{red}{
-            $J * V^{t + \Delta t} = 0$
+            ${\color{blue}J} * {\color{brown}V^{t + \Delta t}} = 0$
         }
     \end{center}
+\end{frame}
+
+\begin{frame}{Le calcul des forces de contact}
+    On a donc:
+    \[
+        \left\{
+        \begin{array}{lcl}
+            J * \color{red}V^{t + \Delta t} & = & 0\\
+            \color{red}V^{t + \Delta t}     & = & V^t + \Delta t * M^{-1} * F
+        \end{array}
+        \right.
+    \]
+    \pause
+    D’où:
+    \[
+        \begin{array}{lcl}
+            J ({\color{red}V^t + \Delta t * M^{-1} * F}) & = & 0\\
+            \pause
+            J (V^t + \Delta t * M^{-1} * (F_{\text{ext}} +
+            F_{\text{contacts}})) & = & 0\\
+            \pause
+            -J(V^t + \Delta t * M^{-1} * F_{\text{ext}}) & = &  \Delta t * J * M^{-1} * F_{\text{contacts}}\\
+        \end{array}
+    \]
+    \pause
+    Les forces de contact sont supportées par les normales et les axes de
+    rotation instantanés donc: $\Delta t * F_{\text{contacts}} = J^T * \lambda$ avec
+    $\frac{\lambda}{\Delta t}$ l’intensité des forces:
+    \pause
+    \begin{center}
+    \cfbox{red}{
+        $-J(V^t + \Delta t M^{-1} F_{\text{ext}}) = J M^{-1} J^T \lambda$
+    }
+    \end{center}
+\end{frame}
+
+\begin{frame}{Le calcul des forces de contact}
+    \begin{itemize}
+        \item Pour corriger les pénétrations, on ajoute de l’énergie au système
+            égal à $\zeta$, proportionnel à la profondeur de pénétration:
+            \begin{center}
+            \cfbox{red}{
+                $\zeta - J(V^t + \Delta t M^{-1} F_{\text{ext}}) = J M^{-1} J^T \lambda$
+            }
+            \end{center}
+            \pause
+        \item La MLCP peut être résolue avec l’algorithme de Gauss-Seidel
+            Projeté.
+            \pause
+        \item Des méthodes directes existent, mais nécessitent un algorithme de
+            fallback.
+    \end{itemize}
 \end{frame}
